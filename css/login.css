@@ -1,0 +1,43 @@
+@import 'base.css';
+@import 'forms.css';
+
+.main__page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.message {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signin {
+  text-align: center;
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signin a {
+  color: #00bfff;
+}
+
+.signin a:hover {
+  text-decoration: underline royalblue;
+}
+
+.forgot-password {
+  text-align: right;
+  font-size: 14.5px;
+}
+
+.forgot-password a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline royalblue;
+}

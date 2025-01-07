@@ -1,0 +1,41 @@
+@import 'base.css';
+@import 'forms.css';
+
+.main__page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.form {
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.label {
+  position: relative;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9em;
+}
+
+.input {
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+  max-height: 200px;
+  min-height: 50px;
+  height: 90px;
+}
+
+.input:focus {
+  border-color: #00bfff;
+}

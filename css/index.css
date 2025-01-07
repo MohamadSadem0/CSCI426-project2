@@ -1,0 +1,882 @@
+body {
+  background-color: #181818;
+  margin: 0;
+  padding: 0;
+}
+
+.main__page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 470px;
+  width: 100%;
+  padding: 20px 0;
+  gap: 12px;
+}
+
+.no-posts {
+  color: #fff;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.post-card {
+  width: 100%;
+  background-color: #2a2a2a;
+  border: 1px solid #363636;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+
+/* Header Styles */
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-meta .username {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.post-options {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* Image Container */
+.post-image-container {
+  width: 100%;
+  aspect-ratio: 1/1;
+  position: relative;
+  background-color: #000;
+}
+
+.post-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Actions Section */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-count {
+  color: #fff;
+  font-size: 14px;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 0;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.action-button:hover {
+  color: #a8a8a8;
+}
+
+.bookmark {
+  font-size: 24px;
+}
+
+/* Content Section */
+.post-content {
+  padding: 0 12px 12px 12px;
+}
+
+.caption {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.caption .username {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.caption .description {
+  color: #f1f1f1;
+}
+
+.post-date {
+  font-size: 12px;
+  color: #a8a8a8;
+  text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 470px) {
+  .posts {
+    padding: 0;
+  }
+
+  .post-card {
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* Icon Styles */
+ion-icon {
+  font-size: 24px;
+  --ionicon-stroke-width: 40px;
+}
+
+/* Hover Effects */
+.action-button ion-icon:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Animation for like button */
+.action-button.liked ion-icon {
+  color: #ed4956;
+  animation: likeAnimation 0.3s ease;
+}
+
+@keyframes likeAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Add these to your existing styles */
+.action-button.liked {
+  color: #ed4956;
+}
+
+.action-button.liked ion-icon {
+  animation: likeAnimation 0.3s ease;
+}
+
+.animate-like {
+  animation: likeAnimation 0.3s ease;
+}
+
+@keyframes likeAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.action-button {
+  transition: transform 0.2s ease;
+}
+
+.action-button:active {
+  transform: scale(0.9);
+}
+
+.processing {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Add at the end of your existing CSS */
+.comment-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background-color: #2a2a2a;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 8px;
+  width: 95%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1px solid #363636;
+  color: #fff;
+}
+
+.close-modal {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 10px 0;
+}
+
+/* Comment Form Styles */
+.comment-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 15px;
+  padding: 8px 16px;
+  background-color: #1a1a1a;
+  border-radius: 25px;
+  border: 1px solid #363636;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.comment-form input::placeholder {
+  color: #888;
+}
+
+.comment-form input:focus {
+  outline: none;
+}
+
+.comment-form .post-comment {
+  color: #0095f6;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.comment-form .post-comment:hover {
+  color: #1aa3ff;
+}
+
+.comment-form .post-comment:disabled {
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Reply Form Styles */
+.reply-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 8px 42px;
+  padding: 8px 16px;
+  background-color: #1a1a1a;
+  border-radius: 25px;
+  border: 1px solid #363636;
+}
+
+.mention-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.mention {
+  color: #0095f6;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.reply-form textarea {
+  flex: 1;
+  margin: 0;
+  padding: 0 8px;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  height: 20px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.reply-form textarea::placeholder {
+  color: #888;
+}
+
+.reply-form textarea:focus {
+  outline: none;
+}
+
+.reply-form button {
+  color: #0095f6;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.reply-form button:hover {
+  color: #1aa3ff;
+}
+
+.reply-form button:disabled {
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Add to your existing CSS */
+.comment {
+  padding: 12px;
+  border-bottom: 1px solid #363636;
+  background-color: #2a2a2a;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-user {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-content {
+  color: #f1f1f1;
+  margin-left: 42px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.comment-actions {
+  margin-left: 42px;
+}
+
+.reply-button {
+  background: none;
+  border: none;
+  color: #a8a8a8;
+  font-size: 12px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.reply-button:hover {
+  color: #fff;
+}
+
+.replies-container {
+  margin-left: 20px;
+  border-left: 2px solid #363636;
+  padding-left: 10px;
+}
+
+.no-comments {
+  text-align: center;
+  color: #a8a8a8;
+  padding: 20px;
+}
+
+.tagged-user {
+  color: #0095f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tagged-user:hover {
+  text-decoration: underline;
+}
+
+.comment[data-level='3'] .replies-container,
+.comment[data-level='4'] .replies-container,
+.comment[data-level='5'] .replies-container {
+  margin-left: 10px;
+}
+
+.comment[data-level='5'] ~ .comment {
+  margin-left: 10px;
+}
+
+/* Custom Scrollbar Styles */
+.modal-content::-webkit-scrollbar,
+.comments-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track,
+.comments-list::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.comments-list::-webkit-scrollbar-thumb {
+  background: #363636;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover,
+.comments-list::-webkit-scrollbar-thumb:hover {
+  background: #404040;
+}
+
+/* For Firefox */
+.modal-content,
+.comments-list {
+  scrollbar-width: thin;
+  scrollbar-color: #363636 #1a1a1a;
+}
+
+.follow-button {
+  background: none;
+  color: #0095f6;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 25px;
+}
+
+.follow-button:hover {
+  color: #1aa3ff;
+}
+
+.follow-button:focus {
+  outline: none;
+}
+
+.post-options-container {
+  position: relative;
+}
+
+.post-options {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.options-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  display: none;
+  z-index: 1000;
+  min-width: 150px;
+}
+
+.options-dropdown.show {
+  display: block;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.option-item:hover {
+  background: #333;
+}
+
+.option-item ion-icon {
+  font-size: 1.2em;
+}
+
+.option-item.delete-post {
+  color: #ff4444;
+}
+
+.edit-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.edit-modal .modal-content {
+  background-color: #1a1a1a;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.edit-modal h2 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  color: #00bfff;
+  margin: 0;
+}
+
+.edit-modal h2::before,
+.edit-modal h2::after {
+  position: absolute;
+  content: '';
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: #00bfff;
+}
+
+.edit-modal h2::after {
+  animation: pulse 1s linear infinite;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.close-modal {
+  position: static;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #ff4444;
+}
+
+.current-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #262626;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.current-post-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.file-upload {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #00bfff;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.file-upload:hover {
+  background-color: #00bfff96;
+}
+
+.file-upload:active {
+  transform: translateY(0);
+}
+
+.file-upload span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.file-upload span::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.file-upload input[type='file'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.edit-description {
+  background-color: #262626;
+  color: #fff;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.edit-description:focus {
+  border-color: #00bfff;
+}
+
+.update-post-btn {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #00bfff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.update-post-btn:hover {
+  background-color: #00bfff96;
+}
+
+/* Add these styles for the comment modal header */
+.comment-modal .modal-content h2 {
+  margin: 0;
+  display: inline-block;
+}
+
+.comment-modal .modal-content .close-modal {
+  position: static;
+  float: right;
+  line-height: 1;
+}
+
+.comment-modal .modal-content {
+  padding-top: 15px;
+}
+
+/* Clear the float after the header */
+.comment-modal .modal-content h2::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.user-stats-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-stats-content {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.user-stats-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.user-stats-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-stats-info {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-stats-item {
+  text-align: center;
+}
+
+.user-stats-count {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.user-stats-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.close-stats-modal {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.username.clickable {
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+}
+
+.username.clickable:hover {
+  color: #00bfff;
+}
