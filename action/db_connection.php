@@ -6,11 +6,9 @@ $user = 'root';
 $pass = '123';
 
 try {
-    // Include the port in the DSN
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Create the 'users' table if it doesn't exist
     $createTableQuery = "
         CREATE TABLE IF NOT EXISTS users (
             id VARCHAR(255) PRIMARY KEY,
@@ -24,7 +22,6 @@ try {
     ";
     $pdo->exec($createTableQuery);
     
-    // Create the 'posts' table if it doesn't exist
     $createTableQuery = "
         CREATE TABLE IF NOT EXISTS posts (
             id VARCHAR(255) PRIMARY KEY,
@@ -37,7 +34,6 @@ try {
     ";
     $pdo->exec($createTableQuery);
     
-    // Create the 'likes' table if it doesn't exist
     $createLikesTable = "
         CREATE TABLE IF NOT EXISTS likes (
             id VARCHAR(255) PRIMARY KEY,
@@ -51,7 +47,6 @@ try {
     ";
     $pdo->exec($createLikesTable);
 
-    // Create the 'comments' table if it doesn't exist
     $createCommentsTable = "
         CREATE TABLE IF NOT EXISTS comments (
             id VARCHAR(255) PRIMARY KEY,
@@ -67,16 +62,13 @@ try {
     ";
     $pdo->exec($createCommentsTable);
     
-    // Add indexes for better performance
     $pdo->exec("ALTER TABLE posts ADD INDEX IF NOT EXISTS created_at_idx (created_at DESC)");
     $pdo->exec("ALTER TABLE likes ADD INDEX IF NOT EXISTS post_user_idx (post_id, user_id)");
     $pdo->exec("ALTER TABLE comments ADD INDEX IF NOT EXISTS post_created_idx (post_id, created_at DESC)");
     $pdo->exec("ALTER TABLE comments ADD INDEX IF NOT EXISTS parent_idx (parent_id)");
     
-    // Modify comments table to handle encrypted IDs
     $pdo->exec("ALTER TABLE comments MODIFY post_id VARCHAR(255) NOT NULL");
     
-    // Create the 'follows' table if it doesn't exist
     $createFollowsTable = "
         CREATE TABLE IF NOT EXISTS follows (
             id VARCHAR(255) PRIMARY KEY,

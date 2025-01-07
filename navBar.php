@@ -5,7 +5,6 @@ require_once __DIR__ . '/action/decryption.php';
 $current_page = basename($_SERVER['PHP_SELF']);
 $decryption = new Decryption();
 
-// Check if user is logged in and get their info
 $user_info = null;
 if (isset($_SESSION['user_id'])) {
     try {
@@ -29,7 +28,6 @@ if (isset($_SESSION['user_id'])) {
 <div class="navigation">
   <ul>
     <?php if (!isset($_SESSION['user_id'])): ?>
-    <!-- Show when user is NOT logged in -->
     <li class="list no-pointer">
       <a href="#">
         <span class="icon">
@@ -67,7 +65,6 @@ if (isset($_SESSION['user_id'])) {
     </li>
 
     <?php else: ?>
-    <!-- Show when user is logged in -->
     <li class="list no-pointer">
       <a href="#">
         <span class="icon">

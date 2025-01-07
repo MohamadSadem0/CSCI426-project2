@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-  <!-- Link to your styles -->
   <link rel="stylesheet" href="navBar.css">
   <link rel="stylesheet" href="./css/register.css">
 </head>
@@ -59,14 +58,12 @@
 
       <button class="submit">Submit</button>
 
-      <!-- Display errors if they exist -->
       <?php if(isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
       <div class="error-container">
         <?php 
           foreach($_SESSION['errors'] as $error): ?>
         <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
         <?php endforeach; 
-          // Clear the errors after displaying them
           unset($_SESSION['errors']);
           ?>
       </div>
@@ -87,13 +84,11 @@
     const errorContainer = document.querySelector('.error-container');
     const errorMessage = document.querySelector('.error-message');
 
-    // Check for any type of error (validation or server-side)
     if (!form.checkValidity() || errorContainer || errorMessage) {
       form.submit();
       return false;
     }
 
-    // Only show spinner if there are no errors at all
     document.getElementById('spinner').style.display = 'flex';
 
     setTimeout(() => {
@@ -103,14 +98,12 @@
     return false;
   }
 
-  // Hide spinner if user navigates back
   window.onpageshow = function(event) {
     if (event.persisted) {
       document.getElementById('spinner').style.display = 'none';
     }
   };
 
-  // Clear errors when input changes
   document.querySelectorAll('.input').forEach(input => {
     input.addEventListener('input', () => {
       const errorContainer = document.querySelector('.error-container');

@@ -36,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     try {
-        // Get all users and check each one
         $stmt = $pdo->prepare("SELECT * FROM users");
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,20 +50,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if ($found_user && password_verify($password, $found_user['password'])) {
-            // Set session variables
             $_SESSION['user_id'] = $found_user['id'];
             $_SESSION['firstname'] = $decryption->decrypt($found_user['firstname']);
             $_SESSION['lastname'] = $decryption->decrypt($found_user['lastname']);
             $_SESSION['email'] = $decryption->decrypt($found_user['email']);
             $_SESSION['profile_picture'] = $found_user['profile_picture'];
             
-            // Clear sensitive data
             $password = null;
             
-            // Use session write close to ensure all data is saved
             session_write_close();
             
-            // Redirect with no-cache headers
             header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");

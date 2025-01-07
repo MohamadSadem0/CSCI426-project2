@@ -17,18 +17,14 @@ try {
     $decryption = new Decryption();
     $user_id = $_GET['user_id'];
     
-    // If the user_id matches the session user_id, use it directly (for profile page)
     if ($user_id === $_SESSION['user_id']) {
         $id_to_use = $user_id;
     } else {
-        // For other users, use the encrypted ID as is
         $id_to_use = $user_id;
     }
 
-    // Debug log
     error_log("Checking stats for user_id: " . $id_to_use);
 
-    // Get followers count
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as followers 
         FROM follows 
@@ -37,7 +33,6 @@ try {
     $stmt->execute([$id_to_use]);
     $followers = $stmt->fetch(PDO::FETCH_ASSOC)['followers'];
 
-    // Get following count
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as following 
         FROM follows 
@@ -46,7 +41,6 @@ try {
     $stmt->execute([$id_to_use]);
     $following = $stmt->fetch(PDO::FETCH_ASSOC)['following'];
 
-    // Debug log
     error_log("Found followers: " . $followers . ", following: " . $following);
 
     echo json_encode([

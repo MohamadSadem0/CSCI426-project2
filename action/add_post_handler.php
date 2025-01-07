@@ -10,25 +10,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = trim($_POST['description'] ?? '');
     $errors = [];
 
-    // Validate file
     if (!isset($_FILES['post_image']) || $_FILES['post_image']['error'] !== UPLOAD_ERR_OK) {
         $errors[] = "Please select a valid image file.";
     } else {
-        // Check file type
         $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
         if (!in_array($_FILES['post_image']['type'], $allowed_types)) {
             $errors[] = "Only JPG, PNG, and GIF files are allowed.";
         }
     }
 
-    // If there are errors, redirect back with errors
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
         header("Location: ../addPost.php");
         exit();
     }
 
-    // Only handle file upload if there are no errors
     $filename = handleFileUpload($_FILES['post_image'], 'assets/postsUploads');
     if (!$filename) {
         $_SESSION['errors'] = ["Failed to upload image."];
@@ -36,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Insert post into database
     try {
         $uniquePostId = uniqid(true);
         $encryptedPostId = $encryption->encryptId($uniquePostId);
@@ -52,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php");
         exit();
     } catch (Exception $e) {
-        // If database insertion fails, delete the uploaded file
         if (file_exists("../postsUploads/$filename")) {
             unlink("../postsUploads/$filename");
         }

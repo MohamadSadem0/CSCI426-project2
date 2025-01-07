@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
 
     try {
-        // Verify post belongs to user
         $stmt = $pdo->prepare("SELECT image FROM posts WHERE id = ? AND user_id = ?");
         $stmt->execute([$post_id, $user_id]);
         $post = $stmt->fetch();
@@ -27,13 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        // Delete the image file
         $image_path = "../assets/postsUploads/" . $post['image'];
         if (file_exists($image_path)) {
             unlink($image_path);
         }
 
-        // Delete the post (cascading will handle related records)
         $stmt = $pdo->prepare("DELETE FROM posts WHERE id = ? AND user_id = ?");
         $stmt->execute([$post_id, $user_id]);
 

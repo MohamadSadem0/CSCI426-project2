@@ -29,22 +29,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Decrypt the post_id for database operations
         $post_id = $decryption->decryptId($encrypted_post_id);
         error_log("Decrypted post ID for comment: " . $post_id);
 
-        // Generate encrypted comment ID
         $uniqueCommentId = uniqid(true);
         $encryptedCommentId = $encryption->encryptId($uniqueCommentId);
 
-        // Add new comment with encrypted post_id
         $stmt = $pdo->prepare("
             INSERT INTO comments (id, post_id, user_id, content, parent_id) 
             VALUES (?, ?, ?, ?, ?)
         ");
         $stmt->execute([$encryptedCommentId, $encrypted_post_id, $user_id, $content, $parent_id]);
 
-        // Get user info for the new comment
         $stmt = $pdo->prepare("
             SELECT firstname, lastname, profile_picture 
             FROM users 
@@ -53,9 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$user_id]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Get updated comment count
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM comments WHERE post_id = ?");
-        $stmt->execute([$encrypted_post_id]);  // Use encrypted_post_id instead of post_id
+        $stmt->execute([$encrypted_post_id]); 
         $comment_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 
         echo json_encode([
@@ -93,17 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         error_log("GET request received for comments");
         error_log("Encrypted Post ID: " . $post_id);
         
-        // Decrypt the post_id
         $decrypted_post_id = $decryption->decryptId($post_id);
         error_log("Decrypted Post ID: " . $decrypted_post_id);
         
-        // Verify post exists
         $checkStmt = $pdo->prepare("SELECT id FROM posts WHERE id = ?");
         $checkStmt->execute([$decrypted_post_id]);
         $postExists = $checkStmt->fetch();
         error_log("Post exists: " . ($postExists ? 'Yes' : 'No'));
 
-        // Get all comments for the post
         $stmt = $pdo->prepare("
             SELECT 
                 c.id, c.content, c.created_at, c.parent_id,
@@ -118,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
         error_log("Number of comments found: " . count($comments));
 
-        // Decrypt user names
         foreach ($comments as &$comment) {
             $comment['firstname'] = $decryption->decrypt($comment['firstname']);
             $comment['lastname'] = $decryption->decrypt($comment['lastname']);
