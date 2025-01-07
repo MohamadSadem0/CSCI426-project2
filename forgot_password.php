@@ -8,7 +8,6 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forgot Password</title>
-  <!-- External Stylesheets -->
   <link rel="stylesheet" href="navBar.css">
   <link rel="stylesheet" href="./css/forgot_password.css">
 </head>
@@ -42,7 +41,6 @@ session_start();
 
       <button class="submit" type="submit">Reset Password</button>
 
-      <!-- Display errors if they exist -->
       <?php if(isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
       <div class="error-container">
         <?php foreach($_SESSION['errors'] as $error): ?>

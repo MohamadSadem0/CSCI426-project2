@@ -25,18 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Check if user already liked the post
         $stmt = $pdo->prepare("SELECT id FROM likes WHERE post_id = ? AND user_id = ?");
         $stmt->execute([$post_id, $user_id]);
         $existing_like = $stmt->fetch();
 
         if ($existing_like) {
-            // Unlike: Remove the like
             $stmt = $pdo->prepare("DELETE FROM likes WHERE post_id = ? AND user_id = ?");
             $stmt->execute([$post_id, $user_id]);
             $action = 'unliked';
         } else {
-            // Like: Generate encrypted like ID
             $uniqueLikeId = uniqid(true);
             $encryptedLikeId = $encryption->encryptId($uniqueLikeId);
 
@@ -44,13 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception("Error generating encrypted like ID");
             }
 
-            // Add new like with encrypted ID
             $stmt = $pdo->prepare("INSERT INTO likes (id, post_id, user_id) VALUES (?, ?, ?)");
             $stmt->execute([$encryptedLikeId, $post_id, $user_id]);
             $action = 'liked';
         }
 
-        // Get updated like count
         $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM likes WHERE post_id = ?");
         $stmt->execute([$post_id]);
         $like_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];

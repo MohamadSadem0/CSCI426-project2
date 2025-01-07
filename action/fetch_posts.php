@@ -6,7 +6,6 @@ function fetchPosts($pdo, $user_id) {
     $decryption = new Decryption();
     
     try {
-        // Fetch posts with user information
         $stmt = $pdo->prepare("
             SELECT DISTINCT 
                 p.id,
@@ -26,7 +25,6 @@ function fetchPosts($pdo, $user_id) {
         $stmt->execute([$user_id]);
         $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Debug: Print raw data before decryption
         error_log("Raw posts data:");
         foreach ($posts as $post) {
             error_log(sprintf(
@@ -36,13 +34,11 @@ function fetchPosts($pdo, $user_id) {
             ));
         }
 
-        // Decrypt user information
         foreach ($posts as &$post) {
             $post['firstname'] = $decryption->decrypt($post['firstname']);
             $post['lastname'] = $decryption->decrypt($post['lastname']);
         }
 
-        // Get all like counts at once
         $likesStmt = $pdo->prepare("
             SELECT post_id, COUNT(*) as count 
             FROM likes 
@@ -51,7 +47,6 @@ function fetchPosts($pdo, $user_id) {
         $likesStmt->execute();
         $likeCounts = $likesStmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-        // Get all user likes at once
         $userLikesStmt = $pdo->prepare("
             SELECT post_id 
             FROM likes 

@@ -11,18 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentUserId = $_SESSION['user_id'];
 
     try {
-        // Check if already following
         $stmt = $pdo->prepare("SELECT * FROM follows WHERE follower_id = ? AND followed_id = ?");
         $stmt->execute([$currentUserId, $userId]);
         $isFollowing = $stmt->fetch();
 
         if ($isFollowing) {
-            // Unfollow
             $stmt = $pdo->prepare("DELETE FROM follows WHERE follower_id = ? AND followed_id = ?");
             $stmt->execute([$currentUserId, $userId]);
             $following = false;
         } else {
-            // Follow: Generate encrypted follow ID
             $uniqueFollowId = uniqid(true);
             $encryptedFollowId = $encryption->encryptId($uniqueFollowId);
 

@@ -3,13 +3,11 @@ session_start();
 require_once 'action/db_connection.php';
 require_once 'action/fetch_posts.php';
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Fetch all posts and related data
 $result = fetchPosts($pdo, $_SESSION['user_id']);
 $posts = $result['posts'];
 $likeCounts = $result['likeCounts'];
@@ -38,7 +36,6 @@ $userLikes = $result['userLikes'];
       $shown_users = array();
       foreach ($posts as $post): ?>
       <div class="post-card">
-        <!-- Header Section -->
         <div class="post-header">
           <div class="user-info">
             <img src="assets/profileUploads/<?php echo htmlspecialchars($post['profile_picture']); ?>" alt="User Image"
@@ -73,13 +70,11 @@ $userLikes = $result['userLikes'];
           <?php endif; ?>
         </div>
 
-        <!-- Image Section -->
         <div class="post-image-container">
           <img class="post-image" src="assets/postsUploads/<?php echo htmlspecialchars($post['image']); ?>"
             alt="Post Image" onerror="this.src='assets/1.jpg';">
         </div>
 
-        <!-- Actions Section -->
         <div class="post-actions">
           <div class="action-buttons">
             <div class="action-group">
@@ -98,9 +93,8 @@ $userLikes = $result['userLikes'];
                 <ion-icon name="chatbubble-outline"></ion-icon>
               </button>
               <?php
-                // Get comment count
                 $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM comments WHERE post_id = ?");
-                $stmt->execute([$post['id']]);  // post['id'] is already encrypted from fetch_posts
+                $stmt->execute([$post['id']]); 
                 $comment_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
               ?>
               <span class="action-count comment-count"><?php echo $comment_count; ?></span>
@@ -117,7 +111,6 @@ $userLikes = $result['userLikes'];
           </button>
         </div>
 
-        <!-- Content Section -->
         <div class="post-content">
           <div class="caption">
             <span class="username <?php echo ($post['user_id'] !== $_SESSION['user_id']) ? 'clickable' : ''; ?>">

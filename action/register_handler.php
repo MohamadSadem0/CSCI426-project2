@@ -134,7 +134,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $pdo->commit();
         
-        // Clear sensitive data
         $password = null;
         $confirm_password = null;
         $hashed_password = null;

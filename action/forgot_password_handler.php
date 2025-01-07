@@ -93,7 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // Update password
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
         $stmt->execute([$hashed_password, $found_user['id']]);

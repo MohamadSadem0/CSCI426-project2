@@ -10,24 +10,20 @@ require_once 'action/decryption.php';
 
 $decryption = new Decryption();
 
-// Fetch user info
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Decrypt user info
 $user_info = [
     'firstName' => $decryption->decrypt($user['firstname']),
     'lastName' => $decryption->decrypt($user['lastname']),
     'profile_picture' => $user['profile_picture']
 ];
 
-// Fetch follower count
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM follows WHERE followed_id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $followerCount = $stmt->fetchColumn();
 
-// Fetch following count
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM follows WHERE follower_id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $followingCount = $stmt->fetchColumn();

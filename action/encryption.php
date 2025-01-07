@@ -5,17 +5,14 @@ class Encryption {
     private $options = OPENSSL_RAW_DATA;
 
     public function __construct() {
-        // You should store this key securely, perhaps in a config file
         $this->key = "your-32-character-secret-key-here";
     }
 
     public function encrypt($data) {
         try {
-            // Generate an initialization vector
             $ivlen = openssl_cipher_iv_length($this->cipher);
             $iv = openssl_random_pseudo_bytes($ivlen);
 
-            // Encrypt the data
             $encrypted = openssl_encrypt(
                 $data, 
                 $this->cipher, 
@@ -28,10 +25,8 @@ class Encryption {
                 throw new Exception("Encryption failed");
             }
 
-            // Combine IV and encrypted data
             $combined = $iv . $encrypted;
 
-            // Return base64 encoded string
             return base64_encode($combined);
         } catch (Exception $e) {
             error_log("Encryption error: " . $e->getMessage());

@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     profileUpload.addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
-            // Check if file is an image
             if (!file.type.startsWith('image/')) {
                 alert('Please select an image file');
                 return;
